@@ -2,11 +2,50 @@
   command = "npm run build"
   publish = "dist"
 
-[build.environment]
-  SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_URL,VITE_SUPABASE_ANON_KEY"
+[functions]
+  directory = "netlify/functions"
 
-# SPA fallback (ראוטינג בצד לקוח)
+# Custom domain configuration
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Force HTTPS
+[[redirects]]
+  from = "http://sean-control-cash.com/*"
+  to = "https://sean-control-cash.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.sean-control-cash.com/*"
+  to = "https://sean-control-cash.com/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/oauth2/callback"
+  to = "/index.html"
+  status = 200
+
+# Domain redirects - כל הדומיינים הישנים מפנים לדומיין החדש
+[[redirects]]
+  from = "https://aesthetic-selkie-19e0f3.netlify.app/*"
+  to = "https://sean-control-cash.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://crm-israel-pro.netlify.app/*"
+  to = "https://sean-control-cash.com/:splat"
+  status = 301
+  force = true
