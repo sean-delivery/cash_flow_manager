@@ -14,15 +14,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Types */
-    "types": ["vite/client", "node"],
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true
+
+    /* Extra */
+    "esModuleInterop": true,
+    "types": ["vite/client", "node"]
   },
   "include": ["src"]
 }
