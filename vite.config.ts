@@ -9,7 +9,7 @@ const codespaceHost = isCodespaces
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true,          // bind 0.0.0.0
+    host: true, // bind 0.0.0.0
     port: 5173,
     strictPort: true,
     cors: true,
