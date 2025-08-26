@@ -1,51 +1,49 @@
 [build]
-  command = "npm run build"
-  publish = "dist"
+command = "npm run build"
+publish = "dist"
+
+[build.environment]
+NODE_VERSION = "20"
 
 [functions]
-  directory = "netlify/functions"
+directory = "netlify/functions"
 
-# Custom domain configuration
+# אבטחה בסיסית לכל הנתיבים
 [[headers]]
-  for = "/*"
+for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
-    Referrer-Policy = "strict-origin-when-cross-origin"
+  X-Frame-Options = "DENY"
+  X-Content-Type-Options = "nosniff"
+  X-XSS-Protection = "1; mode=block"
+  Referrer-Policy = "strict-origin-when-cross-origin"
 
-# Force HTTPS
+# הפניות דומיין → הדומיין הקבוע, עם תנאי Host (נכון תחבירית)
+# https://docs.netlify.com/routing/redirects/redirect-options/#conditions
 [[redirects]]
-  from = "http://sean-control-cash.com/*"
-  to = "https://sean-control-cash.com/:splat"
-  status = 301
-  force = true
+from = "/*"
+to = "https://sean-control-cash.com/:splat"
+status = 301
+force = true
+  [redirects.conditions]
+  Host = ["aesthetic-selkie-19e0f3.netlify.app", "crm-israel-pro.netlify.app", "www.sean-control-cash.com"]
 
+# אם מגיעים ב-HTTP, Netlify כבר כופה HTTPS, אבל נשאיר כלל מפורש ל-www:
 [[redirects]]
-  from = "http://www.sean-control-cash.com/*"
-  to = "https://sean-control-cash.com/:splat"
-  status = 301
-  force = true
+from = "/*"
+to = "https://sean-control-cash.com/:splat"
+status = 301
+force = true
+  [redirects.conditions]
+  Host = ["www.sean-control-cash.com"]
 
+# נתיב OAuth (אם ה-SPA צריך לבלוע אותו)
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/oauth2/callback"
+to = "/index.html"
+status = 200
 
+# SPA fallback – חייב להיות אחרון!
 [[redirects]]
-  from = "/oauth2/callback"
-  to = "/index.html"
-  status = 200
-
-# Domain redirects - כל הדומיינים הישנים מפנים לדומיין החדש
-[[redirects]]
-  from = "https://aesthetic-selkie-19e0f3.netlify.app/*"
-  to = "https://sean-control-cash.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "https://crm-israel-pro.netlify.app/*"
-  to = "https://sean-control-cash.com/:splat"
-  status = 301
-  force = true
+from = "/*"
+to = "/index.html"
+status = 200
